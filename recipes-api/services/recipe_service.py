@@ -7,7 +7,7 @@ from config.configuration import RecipesConfiguration
 config = RecipesConfiguration()
 
 
-def search_recipe(name: str) -> list[Recipe]:
+def get_recipes_by_name(name: str) -> list[Recipe]:
     """
     Retrieves a list of recipes that match the name.
 
@@ -38,7 +38,7 @@ def search_recipe(name: str) -> list[Recipe]:
     return recipes
 
 
-def get_recipe_details(id: str) -> Recipe:
+def get_recipe_by_id(id: str) -> Recipe:
     """
     Retrieves all the details of a given recipe.
 
