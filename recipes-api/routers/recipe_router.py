@@ -10,7 +10,8 @@ from config.configuration import RecipesConfiguration
 config = RecipesConfiguration()
 router = APIRouter()
 
-@router.get("/search-recipe", summary="Retrieves a list of recipes that match the name.")
+
+@router.get("/search", summary="Retrieves a list of recipes that match the name.")
 async def search_recipe(name: str) -> list[Recipe]:
     """
     Retrieves a list of recipes that match the name.
@@ -25,6 +26,7 @@ async def search_recipe(name: str) -> list[Recipe]:
     list[Recipe]
         A list of Recipe objects that match the query name.
     """
+    config.logger.debug(f"Request received to search '{name}'.")
     recipes = None
 
     try:
@@ -32,7 +34,31 @@ async def search_recipe(name: str) -> list[Recipe]:
     except HTTPError as e:
         config.logger.debug(f"Error searching for recipes: {e}")
     
+    config.logger.debug(f"Request to search '{name}' processed succesfully.")
     return recipes
+
+
+@router.get("/random", summary="Gets a random recipe.")
+async def random_recipe() -> Recipe:
+    """
+    Gets a random recipe.
+
+    Returns
+    -------
+    Recipe
+        A Recipe object.
+    """
+    config.logger.debug(f"Request received to get a random recipe.")
+    recipe = None
+
+    try:
+        recipe = get_random_recipe()
+    except HTTPError as e:
+        config.logger.debug(f"Error retrieving recipe: {e}")
+    
+    config.logger.debug(f"Request to get a random recipe processed succesfully.")
+    return recipe
+
 
 @router.get("/{id}", summary="Retrieves all the details of a given recipe.")
 async def recipe_details(id: str) -> Recipe:
@@ -49,6 +75,7 @@ async def recipe_details(id: str) -> Recipe:
     Recipe
         A Recipe object with the requested id.
     """
+    config.logger.debug(f"Request received to get details of recipe with id '{id}'.")
     recipe = None
 
     try:
@@ -56,23 +83,5 @@ async def recipe_details(id: str) -> Recipe:
     except HTTPError as e:
         config.logger.debug(f"Error retrieving recipe: {e}")
     
-    return recipe
-
-@router.get("/random-recipe", summary="Gets a random recipe.")
-async def random_recipe() -> Recipe:
-    """
-    Gets a random recipe.
-
-    Returns
-    -------
-    Recipe
-        A Recipe object.
-    """
-    recipe = None
-
-    try:
-        recipe = get_recipe_by_id(id)
-    except HTTPError as e:
-        config.logger.debug(f"Error retrieving recipe: {e}")
-    
+    config.logger.debug(f"Request to get details of recipe with id '{id}' processed succesfully.")
     return recipe
