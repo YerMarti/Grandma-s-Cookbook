@@ -37,20 +37,36 @@ class Recipe(BaseModel):
     ingredients: dict[str, str]
 
 
-    def __init__(self, data: dict):
-        self.id = data["idMeal"]
-        self.name = data["strMeal"]
-        self.category = data["strCategory"]
-        self.area = data["strArea"]
-        self.instructions = data["strInstructions"]
-        self.thumbnail = data["strMealThumb"]
-        self.ingredients = {}
+    @classmethod
+    def from_data(cls, data: dict):
+        """
+        Creates a Recipe instance from a given data dictionary.
+
+        parameters
+        ----------
+        data : dict
+            A dictionary containing the recipe data.
+
+        Returns
+        -------
+        Recipe
+            A Recipe instance.
+        """        
+        recipe_data = {
+            "id": data["idMeal"],
+            "name": data["strMeal"],
+            "category": data["strCategory"],
+            "area": data["strArea"],
+            "instructions": data["strInstructions"],
+            "thumbnail": data["strMealThumb"],
+            "ingredients": {}
+        }
         
         for i in range(1, 21):
             ingredient = f"strIngredient{i}"
             measure = f"strMeasure{i}"
 
-            if data[ingredient] is None and data[ingredient] != "":
-                break
+            if data[ingredient] and data[measure]:
+                recipe_data["ingredients"][data[ingredient]] = data[measure]
 
-            self.ingredients[data[ingredient]] = data[measure]
+        return cls(**recipe_data)
