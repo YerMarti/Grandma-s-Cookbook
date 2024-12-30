@@ -9,12 +9,12 @@ config = RecipesConfiguration()
 
 tags_metadata = [
     {
-        "name": f"Recipes",
-        "description": f"Operations with cooking recipes.",
+        "name": "Recipes",
+        "description": "Operations with cooking recipes.",
     },
 ]
 
-description = f"""
+description = """
 The **Cooking Recipes API** manages different operations including recipes for cooking.
 """
 
