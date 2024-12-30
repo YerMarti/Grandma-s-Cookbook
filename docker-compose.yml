@@ -23,3 +23,51 @@ services:
       - RECIPES_PORT=50000
     networks:
       - cookbook-network
+  
+  database-api:
+    restart: unless-stopped
+    container_name: database-api
+    image: database-api:0.1
+    build:
+      context: ./database-api
+      dockerfile: Dockerfile
+    ports:
+      - "50001:50001"
+    environment:
+      - DATABASE_PORT=50001
+    networks:
+      - cookbook-network
+    depends_on:
+      - mongodb
+  
+  mongodb:
+    restart: unless-stopped
+    container_name: mongodb
+    image: mongo:latest
+    # volumes:
+    #   - mongodb-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - cookbook-network
+  
+  cookbook-gateway:
+    restart: unless-stopped
+    container_name: cookbook-gateway
+    image: cookbook-gateway:0.1
+    build:
+      context: ./cookbook-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "50002:50002"
+    environment:
+      - GATEWAY_PORT=50002
+      - RECIPE_API_IP=recipes-api
+      - RECIPE_API_PORT=50000
+      - DATABASE_API_IP=database-api
+      - DATABASE_API_PORT=50001
+    networks:
+      - cookbook-network
+    depends_on:
+      - recipes-api
+      - database-api
