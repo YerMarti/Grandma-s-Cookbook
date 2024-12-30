@@ -1,0 +1,25 @@
+name: grandmas-cookbook
+
+
+networks:
+
+  cookbook-network:
+    name: cookbook-network
+    driver: bridge
+
+
+services:
+
+  recipes-api:
+    restart: unless-stopped
+    container_name: recipes-api
+    image: recipes-api:0.1
+    build:
+      context: ./recipes-api
+      dockerfile: Dockerfile
+    ports:
+      - "50000:50000"
+    environment:
+      - RECIPES_PORT=50000
+    networks:
+      - cookbook-network
