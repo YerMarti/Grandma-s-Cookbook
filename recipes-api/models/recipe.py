@@ -42,7 +42,7 @@ class Recipe(BaseModel):
         """
         Creates a Recipe instance from a given data dictionary.
 
-        parameters
+        Parameters
         ----------
         data : dict
             A dictionary containing the recipe data.
