@@ -71,3 +71,21 @@ services:
     depends_on:
       - recipes-api
       - database-api
+  
+  cookbook-web:
+    restart: unless-stopped
+    container_name: cookbook-web
+    image: cookbook-web:0.1
+    build:
+      context: ./cookbook-web
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    environment:
+      - WEB_PORT=4200
+      - GATEWAY_IP=cookbook-gateway
+      - GATEWAY_PORT=50002
+    networks:
+      - cookbook-network
+    depends_on:
+      - cookbook-gateway
