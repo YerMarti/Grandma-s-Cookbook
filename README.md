@@ -1,3 +1,3 @@
 # Grandma´s Cookbook
 
-Project for Web Data subject
+Project for Web Data subject.
