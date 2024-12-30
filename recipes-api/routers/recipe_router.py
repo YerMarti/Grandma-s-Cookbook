@@ -11,7 +11,7 @@ config = RecipesConfiguration()
 router = APIRouter()
 
 
-@router.get("/search", summary="Retrieves a list of recipes that match the name.")
+@router.get("/search", summary="Retrieves a list of recipes that match the name.", response_model=list[Recipe])
 async def search_recipe(name: str) -> list[Recipe]:
     """
     Retrieves a list of recipes that match the name.
@@ -38,7 +38,7 @@ async def search_recipe(name: str) -> list[Recipe]:
     return recipes
 
 
-@router.get("/random", summary="Gets a random recipe.")
+@router.get("/random", summary="Gets a random recipe.", response_model=Recipe)
 async def random_recipe() -> Recipe:
     """
     Gets a random recipe.
@@ -60,7 +60,7 @@ async def random_recipe() -> Recipe:
     return recipe
 
 
-@router.get("/{id}", summary="Retrieves all the details of a given recipe.")
+@router.get("/{id}", summary="Retrieves all the details of a given recipe.", response_model=Recipe)
 async def recipe_details(id: str) -> Recipe:
     """
     Retrieves all the details of a given recipe.
