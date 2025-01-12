@@ -8,6 +8,12 @@ networks:
     driver: bridge
 
 
+volumes:
+
+  mongodb-data:
+    name: mongodb-data
+
+
 services:
 
   recipes-api:
@@ -44,8 +50,8 @@ services:
     restart: unless-stopped
     container_name: mongodb
     image: mongo:latest
-    # volumes:
-    #   - mongodb-data:/data/db
+    volumes:
+      - mongodb-data:/data/db
     ports:
       - "27017:27017"
     networks:
@@ -62,8 +68,8 @@ services:
       - "50002:50002"
     environment:
       - GATEWAY_PORT=50002
-      - RECIPE_API_IP=recipes-api
-      - RECIPE_API_PORT=50000
+      - RECIPE_API_IP=load-balancer-recipes
+      - RECIPE_API_PORT=50003
       - DATABASE_API_IP=database-api
       - DATABASE_API_PORT=50001
     networks:
@@ -89,3 +95,17 @@ services:
       - cookbook-network
     depends_on:
       - cookbook-gateway
+  
+  load-balancer-recipes:
+    restart: unless-stopped
+    container_name: load-balancer-recipes
+    image: load-balancer-recipes:0.1
+    build:
+      context: ./load-balancer-recipes
+      dockerfile: Dockerfile
+    ports:
+      - "50003:50003"
+    networks:
+      - cookbook-network
+    depends_on:
+      - recipes-api
