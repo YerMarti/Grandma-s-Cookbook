@@ -1,0 +1,24 @@
+<div class="card">
+    @if (recipe().thumbnail) {
+        <img [src]="recipe().thumbnail" class="card-img-top" alt="{{ recipe().name }}">
+    }
+    <div class="card-body">
+        <h2 class="card-title">{{ recipe().name }}</h2>
+        <p class="card-text"><strong>Category:</strong> {{ recipe().category }}</p>
+        <p class="card-text"><strong>Area:</strong> {{ recipe().area }}</p>
+
+        <h3 class="mt-3">Ingredients:</h3>
+        <ul class="list-group">
+            @for (ingredient of recipe().ingredients|keyvalue; track ingredient.key) {
+                <li class="list-group-item">
+                    {{ ingredient.key }}: {{ ingredient.value }}
+                </li>
+            }
+        </ul>
+
+        <h3 class="mt-3">Instructions:</h3>
+        <pre class="bg-light p-3 rounded">{{ recipe().instructions }}</pre>
+
+        <button class="btn btn-primary" (click)="addFavorite(recipe().id)">Add Favorite</button>
+    </div>
+</div>

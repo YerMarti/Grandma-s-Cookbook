@@ -1,0 +1,37 @@
+<div class="container mt-4">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search for recipes..." #searchInput>
+      <button class="btn btn-outline-secondary" type="button" (click)="searchRecipes(searchInput.value)">Search</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="randomRecipe()">I'm feeling lucky</button>
+    </div>
+  
+    @if (loading) {
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    }
+  
+    @if (error) {
+      {{ error }}
+    }
+  
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @for (recipe of recipes; track $index) {
+            <div class="card h-100">
+                @if (recipe.thumbnail) {
+                    <img src="{{ recipe.thumbnail }}" class="card-img-top" alt="{{ recipe.name }}" style="max-height: 200px; object-fit: cover;">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <p class="card-text">{{ recipe.category }}</p>
+                    <button class="btn btn-primary" (click)="goToRecipeDetails(recipe.id)">View Details</button>
+                    <button class="btn btn-primary" (click)="addFavorite(recipe.id)">Add Favourite</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (recipes.length === 0 && !loading && !error) {
+        <p>No recipes found.</p>
+    }
+</div>

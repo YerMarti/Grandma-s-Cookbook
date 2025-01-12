@@ -1,0 +1,25 @@
+<nav class="navbar bg-primary navbar-expand-lg bg-body-tertiary sticky-sm-top">
+  <div class="container-fluid">
+    <!-- Elemento de la barra de navegación a la izquierda -->
+    <a class="navbar-brand" href="#">Navbar</a>
+    <!-- Contenido del navbar (collapse) -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Lista de elementos de navegación -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/search" routerLinkActive="active">Search</a>
+          <a class="nav-link" aria-current="page" routerLink="/{{this.userService.getLoggedUsername()}}/favorites" routerLinkActive="active">Favorites</a>
+        </li>
+      </ul>
+    </div>
+    <!-- Elementos de navegación a la derecha -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Nuevo elemento "Perfil" -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="" routerLinkActive="active">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<router-outlet />

@@ -12,15 +12,15 @@ class User(BaseModel):
         The username of the user.
     password : str
         The password of the user.
-    favoriteRecipes : list[Recipe]
-        A list of Recipe objects that the user has marked as favorite.
+    favoriteRecipes : list[int]
+        A list of recipe ids that the user has marked as favorite.
     """
     
     username: str
 
     password: str
 
-    favoriteRecipes: list[Recipe]
+    favoriteRecipes: list[int]
 
 
     @classmethod

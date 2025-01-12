@@ -5,6 +5,7 @@ from models.user import User
 from models.recipe import Recipe
 
 from config.configuration import GatewayConfiguration
+from services.recipe_service import get_recipe_by_id
 
 config = GatewayConfiguration()
 
@@ -139,7 +140,7 @@ def get_favorite_recipes(username: str) -> list[Recipe]:
 
     res = json.loads(request.content.decode("utf-8"))
 
-    recipes = [Recipe.from_data(recipe) for recipe in res]
+    recipes = [get_recipe_by_id(recipe) for recipe in res]
 
     config.logger.debug(f"Favorite recipes of user '{username}' retrieved.")
     return recipes

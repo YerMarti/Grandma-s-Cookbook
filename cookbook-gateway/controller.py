@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 from routers.recipe_router import router as RecipeRouter
@@ -29,6 +30,18 @@ app = FastAPI(
     summary="Cookbook Gateway API for the project",
     version="0.1",
     openapi_tags=tags_metadata
+)
+
+origins = [
+    "http://localhost:4200",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(RecipeRouter, tags=["Recipes"], prefix=f"/recipes")

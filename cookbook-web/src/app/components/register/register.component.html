@@ -1,0 +1,13 @@
+<form [formGroup]="registerForm" (submit)="register()">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="usernameReg" placeholder="usernameReg" formControlName="usernameReg">
+        <label for="usernameReg" class="form-label">Username</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="passwordReg" placeholder="passwordReg" formControlName="passwordReg">
+        <label for="passwordReg" class="form-label">Password</label>
+    </div>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Register</button>
+    </div>
+</form>
