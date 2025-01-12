@@ -44,18 +44,8 @@ router.post('/:username/favorites', async (req, res) => {
         }
 
         const recipeData = req.body;
-        let recipe = await Recipe.findOne({ id: recipeData.id });
 
-        if (!recipe) {
-            recipe = new Recipe(recipeData);
-            await recipe.save();
-        }
-
-        if (user.favoriteRecipes.find(favRecipe => favRecipe.equals(recipe._id))) {
-            return res.status(400).json({error: "Recipe is already in favorites"})
-        }
-
-        user.favoriteRecipes.push(recipe._id);
+        user.favoriteRecipes.push(recipeData.id);
         await user.save();
 
         res.status(200).json(user);
@@ -68,7 +58,7 @@ router.post('/:username/favorites', async (req, res) => {
 // Get a user's favorite recipes
 router.get('/:username/favorites', async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.params.username }).populate('favoriteRecipes');
+        const user = await User.findOne({ username: req.params.username });
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
